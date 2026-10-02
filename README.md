@@ -3,7 +3,8 @@
 Play **Kirby's Return to Dream Land** (Wii) with **GameCube controllers** — up to
 four of them, no Wii Remote needed — or with Classic Controllers in either of
 two button styles. Works with the USA (`SUKE01`), European (`SUKP01`, *Kirby's
-Adventure Wii*) and Japanese (`SUKJ01`, *Hoshi no Kirby Wii*) releases.
+Adventure Wii*), Japanese (`SUKJ01`, *Hoshi no Kirby Wii*) and Korean (`SUKK01`,
+*Byeorui Kirby Wii*) releases.
 
 The patches are applied to your own copy of the game: drop a clean `.wbfs` or
 `.iso` onto the patcher and play the result on a Wii (USB loader) or in
@@ -103,7 +104,7 @@ python3 tools/patch_disc.py game.wbfs --cc --style yb
 
 ### Gecko codes (Dolphin)
 
-Copy `codes/<disc id>.ini` (`SUKE01`, `SUKP01` or `SUKJ01`) into Dolphin's
+Copy `codes/<disc id>.ini` (`SUKE01`, `SUKP01`, `SUKJ01` or `SUKK01`) into Dolphin's
 `GameSettings` folder and enable the codes under **Properties → Gecko Codes**.
 Enable exactly one *Classic Controller* style; the *GameCube controllers* code
 of the same style goes with it. Set the GameCube ports to Standard Controllers.
@@ -123,7 +124,7 @@ release.
 ### Which release do I have?
 
 The disc id is the first six characters of the disc (`SUKE01` USA, `SUKP01`
-Europe/Australia, `SUKJ01` Japan). The GUI and `tools/patch_disc.py` read it for
+Europe/Australia, `SUKJ01` Japan, `SUKK01` Korea). The GUI and `tools/patch_disc.py` read it for
 you.
 
 ## Limits
@@ -135,6 +136,10 @@ you.
   no rumble.
 - A GameCube pad can be plugged in before or after the game starts; it is
   noticed within a moment.
+- The Korean release has no published Classic Controller or Metafortress patch:
+  its sites were carried over from the other three releases' (see
+  [docs/TECHNICAL.md](docs/TECHNICAL.md)) and checked in Dolphin only as far as
+  the controls go.
 - Nothing here has been run on a console: it has been verified in Dolphin (see
   [docs/TECHNICAL.md](docs/TECHNICAL.md)). The polling of the GameCube ports
   follows [Barrel Blast Patch](https://github.com/quatric/Barrel-Blast-Patch)

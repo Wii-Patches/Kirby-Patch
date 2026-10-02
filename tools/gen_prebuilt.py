@@ -44,6 +44,8 @@ def main(argv):
     for name in which:
         mod, extra = builder(name)
         mod.USA_DOL = dol_for('SUKE01')
+        if hasattr(mod, 'ALL_DOLS'):
+            mod.ALL_DOLS = {r: dol_for(r) for r in REGIONS}
         for region in REGIONS:
             f = mod.build(region, dol_for(region), *extra)
             path = os.path.join(PREBUILT, '%s_%s.json' % (name, region))

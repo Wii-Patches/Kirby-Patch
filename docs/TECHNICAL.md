@@ -156,16 +156,35 @@ sites are found by masked-signature search against the USA build
 demands exactly one match); the data addresses are read back out of the matched
 code, never guessed.
 
-| | USA | Europe | Japan |
-| --- | --- | --- | --- |
-| `KPADiRead` entry | `0x8006E030` | `0x8006E270` | `0x8006E030` |
-| samples-queued check | `0x8006E1D4` | `0x8006E414` | `0x8006E1D4` |
-| `WPADProbe` | `0x80057530` | `0x80057770` | `0x80057530` |
-| `SIGetType` | `0x8002B890` | `0x8002B8A0` | `0x8002B890` |
-| `SiTypes` | `0x8073FF48` | `0x80741388` | `0x8073E0E8` |
-| WPAD control block table | `0x80806ED0` | `0x80808850` | `0x80804950` |
-| KPAD channel 0 | `0x8080D088` | `0x8080EA08` | `0x8080AB08` |
-| `read_kpad_button` hook | `0x8006B074` | `0x8006B2B4` | `0x8006B074` |
+| | USA | Europe | Japan | Korea |
+| --- | --- | --- | --- | --- |
+| `KPADiRead` entry | `0x8006E030` | `0x8006E270` | `0x8006E030` | `0x8006E040` |
+| samples-queued check | `0x8006E1D4` | `0x8006E414` | `0x8006E1D4` | `0x8006E1E4` |
+| `WPADProbe` | `0x80057530` | `0x80057770` | `0x80057530` | `0x80057540` |
+| `SIGetType` | `0x8002B890` | `0x8002B8A0` | `0x8002B890` | `0x8002B8A0` |
+| `SiTypes` | `0x8073FF48` | `0x80741388` | `0x8073E0E8` | `0x80740A08` |
+| WPAD control block table | `0x80806ED0` | `0x80808850` | `0x80804950` | `0x80807ED0` |
+| KPAD channel 0 | `0x8080D088` | `0x8080EA08` | `0x8080AB08` | `0x8080E088` |
+| `read_kpad_button` hook | `0x8006B074` | `0x8006B2B4` | `0x8006B074` | `0x8006B084` |
+
+## Korea
+
+Vague Rant published the Classic Controller code and the Metafortress bypass for the
+USA, European and Japanese builds only. The Korean build is the same code moved a little,
+so its sites are carried over (`src/reloc.py`):
+
+- the Classic Controller hooks and the two extension-check patches by masked-signature search
+  against the USA build (each lands on the same instruction; the pointer code's game function
+  is `0x8004CCE0`);
+- the ~1,400 Metafortress writes from all three published lists, each searched for by the code
+  around it, trusted only if it moved by the same distance as a neighbouring site, or else
+  found between its neighbours' placements by the shape of the check. The method was run the
+  other way as a test: from two lists it reproduces the third's every site except a handful
+  the third list does differently by hand. 1,388 Korean sites come out identical from all
+  three lists; the other four were decided from the Korean code itself (see `src/gen_meta.py`).
+
+That is the unverified part: a protection check the three lists never contained would not be
+bypassed. The controls were verified in Dolphin like the other releases.
 
 ## How it was tested
 

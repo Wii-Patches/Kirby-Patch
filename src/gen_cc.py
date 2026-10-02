@@ -32,6 +32,9 @@ REL = {
     'SUKP01': dict(sites={0x8006B63C: 0x8006B87C, 0x8006C1B8: 0x8006C3F8, 0x8006D120: 0x8006D360, 0x8006B074: 0x8006B2B4},
                    func=0x8004CF10, ext=[(0x801AC620, 0x60000000), (0x801AC694, 0x38600000)]),
 }
+# Korea: found by masked-signature search (src/reloc.py) against the USA build; every site is the same instruction there
+REL['SUKK01'] = dict(sites={0x8006B63C: 0x8006B64C, 0x8006C1B8: 0x8006C1C8, 0x8006D120: 0x8006D130, 0x8006B074: 0x8006B084},
+                     func=0x8004CCE0, ext=[(0x801AC0A8, 0x60000000), (0x801AC11C, 0x38600000)])
 BUTTON_HOOK = 0x8006B074
 
 
@@ -39,6 +42,12 @@ def build(region, dol, style):
     r = REL[region]
     usa = g.parse_gecko(open(os.path.join(HERE, 'vr_usa_ba.txt')).read())
     ops, cur = [], CC_BASE
+    if region == 'SUKK01':
+        from reloc import Relocator
+        rel = Relocator(USA_DOL, dol)
+        pairs = list(r['sites'].items()) + [(u[0], k[0]) for u, k in zip(USA['ext'], r['ext'])]
+        for u, t in pairs:
+            assert rel.same_insn(u, t), 'Korean site 0x%08X does not match USA 0x%08X' % (t, u)
     note = {0x8006B63C: 'KPAD read_kpad_acc: shake',
             0x8006C1B8: 'KPAD calc_acc_variable: pointer from the right stick',
             0x8006D120: 'KPAD read_kpad_ext: left stick as D-Pad',
